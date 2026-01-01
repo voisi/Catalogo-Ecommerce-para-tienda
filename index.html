@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gourmet Market | Pide desde Casa</title>
+    <title>Gourmet Market | Catálogo Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .product-card { width: 210px; transition: all 0.3s ease; flex-shrink: 0; }
-        .product-card:hover { transform: translateY(-5px); }
+        
+        /* Ajuste de cards para carruseles (móvil y desktop) */
+        .product-card { width: 240px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; }
+        @media (max-width: 640px) {
+            .product-card { width: 200px; } /* Un poco más pequeñas en carrusel móvil para que se vea la siguiente */
+        }
+
+        .product-card:hover { transform: translateY(-8px); }
         #cart-sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .cart-open { transform: translateX(0) !important; }
         .producto-agotado { filter: saturate(0.2) opacity(0.7); background-color: #f3f4f6; }
@@ -21,80 +27,80 @@
 <body class="bg-gray-50 min-h-screen">
 
     <header class="bg-white/90 bg-blur sticky top-0 z-50 border-b border-gray-100">
-        <div class="max-w-[1400px] mx-auto px-4 py-4 space-y-4">
+        <div class="max-w-[1400px] mx-auto px-4 py-4 md:py-6 space-y-4">
             <div class="flex justify-between items-center">
-                <h1 class="text-xl font-black text-gray-900 tracking-tighter uppercase italic">Gourmet<span class="text-green-600">Market</span></h1>
-                <button onclick="toggleCart()" class="relative bg-gray-900 text-white p-3 rounded-2xl active:scale-95 transition">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                <h1 class="text-xl md:text-2xl font-black text-gray-900 tracking-tighter uppercase italic">Gourmet<span class="text-green-600">Market</span></h1>
+                <button onclick="toggleCart()" class="relative bg-gray-900 text-white p-3 md:p-4 rounded-2xl active:scale-95 transition shadow-xl">
+                    <i class="fas fa-shopping-basket text-base md:text-lg"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 text-white text-[10px] md:text-xs font-bold h-6 w-6 md:h-7 md:w-7 rounded-full flex items-center justify-center border-2 border-white">0</span>
                 </button>
             </div>
             
-            <div class="relative w-full max-w-2xl mx-auto">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <div class="relative w-full max-w-3xl mx-auto">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-base md:text-lg"></i>
                 <input type="text" id="busqueda" oninput="ejecutarFiltros()" placeholder="Busca productos..." 
-                    class="w-full bg-gray-100 border-none rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-green-500 transition shadow-inner">
+                    class="w-full bg-gray-100 border-none rounded-2xl md:rounded-3xl py-3 md:py-4 pl-12 md:pl-14 pr-6 text-sm md:text-base focus:ring-2 focus:ring-green-500 transition shadow-inner">
             </div>
         </div>
 
         <div class="bg-white border-t border-gray-50">
-            <div id="categorias-nav" class="max-w-[1400px] mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar">
-                <button onclick="seleccionarCategoria('Todos')" class="category-btn active border px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">Todos</button>
-                <button onclick="seleccionarCategoria('Proteínas')" class="category-btn border px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition text-gray-500 hover:bg-gray-100">Proteínas</button>
-                <button onclick="seleccionarCategoria('Vegetales')" class="category-btn border px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition text-gray-500 hover:bg-gray-100">Vegetales</button>
-                <button onclick="seleccionarCategoria('Frutas')" class="category-btn border px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition text-gray-500 hover:bg-gray-100">Frutas</button>
-                <button onclick="seleccionarCategoria('Lácteos')" class="category-btn border px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition text-gray-500 hover:bg-gray-100">Lácteos</button>
+            <div id="categorias-nav" class="max-w-[1400px] mx-auto px-4 py-3 md:py-4 flex gap-2 md:gap-3 overflow-x-auto no-scrollbar">
+                <button onclick="seleccionarCategoria('Todos')" class="category-btn active border-2 px-5 md:px-7 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-black whitespace-nowrap transition">Todos</button>
+                <button onclick="seleccionarCategoria('Proteínas')" class="category-btn border-2 px-5 md:px-7 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-black whitespace-nowrap transition text-gray-400 hover:bg-gray-100">Proteínas</button>
+                <button onclick="seleccionarCategoria('Vegetales')" class="category-btn border-2 px-5 md:px-7 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-black whitespace-nowrap transition text-gray-400 hover:bg-gray-100">Vegetales</button>
+                <button onclick="seleccionarCategoria('Frutas')" class="category-btn border-2 px-5 md:px-7 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-black whitespace-nowrap transition text-gray-400 hover:bg-gray-100">Frutas</button>
+                <button onclick="seleccionarCategoria('Lácteos')" class="category-btn border-2 px-5 md:px-7 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-black whitespace-nowrap transition text-gray-400 hover:bg-gray-100">Lácteos</button>
             </div>
         </div>
     </header>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[100] translate-x-full flex flex-col">
-        <div class="p-6 border-b flex justify-between items-center">
-            <h2 class="font-black text-xl uppercase tracking-tighter text-gray-900">Tu Pedido</h2>
-            <button onclick="toggleCart()" class="text-gray-300 text-3xl hover:text-black">&times;</button>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:max-w-md bg-white shadow-2xl z-[100] translate-x-full flex flex-col">
+        <div class="p-6 md:p-8 border-b flex justify-between items-center">
+            <h2 class="font-black text-xl md:text-2xl uppercase tracking-tighter text-gray-900">Tu Pedido</h2>
+            <button onclick="toggleCart()" class="text-gray-300 text-3xl md:text-4xl hover:text-black transition">&times;</button>
         </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto p-4 space-y-4"></div>
-        <div class="p-6 border-t bg-gray-50">
-            <div class="flex justify-between mb-4 font-black text-xl px-2">
-                <span class="text-gray-500 uppercase text-sm self-center">Total</span>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6"></div>
+        <div class="p-6 md:p-8 border-t bg-gray-50">
+            <div class="flex justify-between mb-4 md:mb-6 font-black text-xl md:text-2xl px-2">
+                <span class="text-gray-400 uppercase text-[10px] self-center tracking-widest">Total</span>
                 <span id="cart-total" class="text-green-600">$0.00</span>
             </div>
-            <button onclick="enviarWhatsApp()" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-green-600 shadow-xl shadow-green-100 transition-all">
-                <i class="fab fa-whatsapp text-2xl"></i> Finalizar Pedido
+            <button onclick="enviarWhatsApp()" class="w-full bg-green-500 text-white py-4 md:py-5 rounded-2xl md:rounded-3xl font-black text-base md:text-lg flex items-center justify-center gap-3 hover:bg-green-600 shadow-xl transition-all">
+                <i class="fab fa-whatsapp text-2xl md:text-3xl"></i> Finalizar Pedido
             </button>
         </div>
     </div>
 
-    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/40 z-[90] hidden backdrop-blur-sm"></div>
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-[90] hidden backdrop-blur-md"></div>
 
-    <main class="max-w-[1400px] mx-auto px-4 py-8">
+    <main class="max-w-[1400px] mx-auto px-4 py-8 md:py-12">
         
-        <section id="section-agotado" class="mb-14 opacity-70">
-            <h2 class="text-[10px] font-black text-red-500 uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
+        <section id="section-agotado" class="mb-12 md:mb-20 opacity-70">
+            <h2 class="text-[10px] md:text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-6 md:mb-8 flex items-center gap-3">
                 <span class="h-4 w-1 bg-red-500 rounded-full"></span> Agotados
             </h2>
-            <div id="container-agotado" class="flex gap-6 overflow-x-auto pb-4 no-scrollbar"></div>
+            <div id="container-agotado" class="flex gap-4 md:gap-8 overflow-x-auto pb-4 no-scrollbar"></div>
         </section>
 
-        <section id="section-nuevo" class="mb-14">
-            <h2 class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
+        <section id="section-nuevo" class="mb-12 md:mb-20">
+            <h2 class="text-[10px] md:text-xs font-black text-blue-600 uppercase tracking-[0.4em] mb-6 md:mb-8 flex items-center gap-3">
                 <span class="h-4 w-1 bg-blue-600 rounded-full"></span> Novedades
             </h2>
-            <div id="container-nuevo" class="flex gap-6 overflow-x-auto pb-4 no-scrollbar"></div>
+            <div id="container-nuevo" class="flex gap-4 md:gap-8 overflow-x-auto pb-4 no-scrollbar"></div>
         </section>
 
         <hr id="separador" class="mb-12 border-gray-100">
 
         <section id="section-principal">
-            <h2 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
+            <h2 id="titulo-principal" class="text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-[0.4em] mb-8 flex items-center gap-3">
                 <span class="h-px w-12 bg-gray-200"></span> Catálogo Disponible
             </h2>
-            <div id="container-principal" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6"></div>
+            <div id="container-principal" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-8"></div>
         </section>
 
         <div id="no-results" class="hidden py-20 text-center">
-            <i class="fas fa-search text-gray-200 text-6xl mb-4"></i>
-            <p class="text-gray-400 italic font-medium">No encontramos productos.</p>
+            <i class="fas fa-search text-gray-100 text-7xl md:text-9xl mb-6"></i>
+            <p class="text-gray-400 font-medium italic">Sin resultados.</p>
         </div>
     </main>
 
@@ -111,41 +117,41 @@
                 const response = await fetch('productos2.json');
                 productos = await response.json();
                 ejecutarFiltros();
-            } catch (e) { console.error("Error cargando JSON", e); }
+            } catch (e) { console.error("Error", e); }
         }
 
         function createCard(p, isAgotado = false) {
             const tipoTexto = p.tipo || "Fresco";
             const badgeColor = tipoTexto === 'Fresco' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700';
-            
-            // Stock bajo entre 1 y 5 unidades
             const stockBajo = p.stock > 0 && p.stock <= 5;
 
             return `
-                <div class="product-card bg-white rounded-[2.5rem] border border-gray-100 p-3 flex flex-col ${isAgotado ? 'producto-agotado' : 'shadow-sm'}">
-                    <div class="relative h-40 rounded-[2rem] overflow-hidden mb-4">
+                <div class="product-card bg-white rounded-[1.5rem] md:rounded-[2.5rem] border border-gray-100 p-2 md:p-4 flex flex-col ${isAgotado ? 'producto-agotado' : 'shadow-md'}">
+                    <div class="relative h-32 md:h-52 rounded-[1.2rem] md:rounded-[2rem] overflow-hidden mb-3 md:mb-5">
                         <img src="${p.img}" class="w-full h-full object-cover">
-                        <span class="absolute top-3 left-3 ${badgeColor} text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest">${tipoTexto}</span>
+                        <span class="absolute top-2 left-2 md:top-3 md:left-3 ${badgeColor} text-[7px] md:text-[9px] font-black px-2 py-1 rounded-lg uppercase tracking-widest shadow-sm">${tipoTexto}</span>
                     </div>
-                    <div class="px-2 flex flex-col flex-grow">
-                        <h3 class="font-bold text-gray-900 text-sm mb-1 truncate">${p.nombre}</h3>
-                        <p class="text-[10px] text-gray-400 font-bold mb-3">${p.g}G | ${p.lb}LB</p>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-[9px] font-black uppercase mb-1">
+                    <div class="px-1 md:px-2 flex flex-col flex-grow">
+                        <h3 class="font-black text-gray-900 text-[11px] md:text-base mb-0.5 md:mb-1 truncate">${p.nombre}</h3>
+                        <p class="text-[9px] md:text-xs text-gray-400 font-bold mb-3">${p.g}G | ${p.lb}LB</p>
+                        
+                        <div class="mb-3 md:mb-5">
+                            <div class="flex justify-between text-[7px] md:text-[9px] font-black uppercase mb-1">
                                 <span class="text-gray-400">Stock</span>
                                 <span class="${stockBajo ? 'text-orange-600' : 'text-gray-900'}">${p.stock}</span>
                             </div>
-                            <div class="w-full bg-gray-100 h-1 rounded-full overflow-hidden">
+                            <div class="w-full bg-gray-100 h-1 md:h-1.5 rounded-full overflow-hidden">
                                 <div class="h-full ${isAgotado ? 'bg-gray-300' : stockBajo ? 'bg-orange-500' : 'bg-green-500'}" style="width: ${Math.min(p.stock * 10, 100)}%"></div>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-lg font-black text-gray-900">$${p.precio.toFixed(2)}</span>
-                            <div class="flex gap-2">
-                                ${isAgotado ? `<div class="big-x">✕</div>` : 
+
+                        <div class="flex items-center justify-between mt-auto gap-1 md:gap-2">
+                            <span class="text-sm md:text-xl font-black text-gray-900">$${p.precio.toFixed(2)}</span>
+                            <div class="flex gap-1 md:gap-2">
+                                ${isAgotado ? `<div class="big-x pr-2">✕</div>` : 
                                 `
-                                    ${stockBajo ? `<button onclick="consultarStock('${p.nombre}')" class="bg-green-500 text-white px-3 h-10 rounded-2xl flex items-center justify-center hover:bg-green-600 transition-all shadow-md" title="Consultar disponibilidad"><i class="fab fa-whatsapp"></i></button>` : ''}
-                                    <button onclick="addToCart(${p.id})" class="bg-gray-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center hover:bg-green-600 transition-all"><i class="fas fa-plus text-xs"></i></button>
+                                    ${stockBajo ? `<button onclick="consultarStock('${p.nombre}')" class="bg-green-500 text-white w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg"><i class="fab fa-whatsapp text-xs md:text-lg"></i></button>` : ''}
+                                    <button onclick="addToCart(${p.id})" class="bg-gray-900 text-white w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg"><i class="fas fa-plus text-[10px] md:text-sm"></i></button>
                                 `}
                             </div>
                         </div>
@@ -164,21 +170,26 @@
 
         function ejecutarFiltros() {
             const query = normalizar(document.getElementById('busqueda').value);
-            const filtrado = productos.filter(p => {
+            const esVistaGeneral = (categoriaActual === "Todos" && query === "");
+
+            if (esVistaGeneral) {
+                renderSection('container-agotado', 'section-agotado', productos.filter(p => p.stock === 0));
+                renderSection('container-nuevo', 'section-nuevo', productos.filter(p => p.status === 'nuevo' && p.stock > 0));
+                document.getElementById('separador').classList.remove('hidden');
+            } else {
+                document.getElementById('section-agotado').classList.add('hidden');
+                document.getElementById('section-nuevo').classList.add('hidden');
+                document.getElementById('separador').classList.add('hidden');
+            }
+
+            const filtrados = productos.filter(p => {
                 const matchQuery = normalizar(p.nombre).includes(query);
                 const matchCat = (categoriaActual === "Todos" || p.cat === categoriaActual);
-                return matchQuery && matchCat;
+                return matchQuery && matchCat && p.stock > 0;
             });
 
-            const agotados = filtrado.filter(p => p.stock === 0);
-            const nuevos = filtrado.filter(p => p.status === 'nuevo' && p.stock > 0);
-            const normales = filtrado.filter(p => p.status === 'normal' && p.stock > 0);
-
-            renderSection('container-agotado', 'section-agotado', agotados);
-            renderSection('container-nuevo', 'section-nuevo', nuevos);
-            renderSection('container-principal', 'section-principal', normales);
-
-            document.getElementById('no-results').classList.toggle('hidden', filtrado.length > 0);
+            renderSection('container-principal', 'section-principal', filtrados);
+            document.getElementById('no-results').classList.toggle('hidden', filtrados.length > 0 || esVistaGeneral);
         }
 
         function renderSection(containerId, sectionId, items) {
@@ -205,7 +216,7 @@
             const index = carrito.findIndex(item => item.id === id);
             if (index > -1) {
                 if(carrito[index].qty < prod.stock) carrito[index].qty++;
-                else alert("Stock máximo");
+                else alert("Máximo stock");
             } else { carrito.push({...prod, qty: 1}); }
             updateCartUI();
         }
@@ -220,31 +231,30 @@
 
         function updateCartUI() {
             const container = document.getElementById('cart-items');
+            const total = carrito.reduce((acc, item) => acc + (item.precio * item.qty), 0);
             document.getElementById('cart-count').innerText = carrito.reduce((acc, p) => acc + p.qty, 0);
-            let total = 0;
-            container.innerHTML = carrito.map(item => {
-                total += item.precio * item.qty;
-                return `
-                    <div class="flex items-center gap-4 bg-gray-50 p-4 rounded-3xl border border-gray-100">
-                        <img src="${item.img}" class="w-14 h-14 object-cover rounded-xl">
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-xs">${item.nombre}</h4>
-                            <div class="flex items-center justify-between mt-1">
-                                <div class="flex items-center gap-2">
-                                    <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-white border rounded text-[10px]">-</button>
-                                    <span class="font-bold text-xs">${item.qty}</span>
-                                    <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-white border rounded text-[10px]">+</button>
-                                </div>
-                                <span class="font-black text-green-600 text-xs">$${(item.precio * item.qty).toFixed(2)}</span>
+            
+            container.innerHTML = carrito.map(item => `
+                <div class="flex items-center gap-4 md:gap-6 bg-gray-50 p-4 md:p-5 rounded-2xl md:rounded-[2rem] border border-gray-100">
+                    <img src="${item.img}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl shadow-sm">
+                    <div class="flex-grow">
+                        <h4 class="font-black text-[10px] md:text-sm text-gray-900">${item.nombre}</h4>
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center gap-2 bg-white p-1 rounded-lg border">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-400 font-bold">-</button>
+                                <span class="font-black text-[10px] md:text-sm">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center text-gray-400 font-bold">+</button>
                             </div>
+                            <span class="font-black text-green-600 text-[11px] md:text-base">$${(item.precio * item.qty).toFixed(2)}</span>
                         </div>
-                    </div>`;
-            }).join('');
+                    </div>
+                </div>
+            `).join('');
             document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
         }
 
         function consultarStock(nombreProducto) {
-            const msg = `Hola! 👋 Me interesa el producto *${nombreProducto}* y veo que quedan pocas unidades. ¿Aún tienen disponibilidad?`;
+            const msg = `Hola! 👋 Me interesa el producto *${nombreProducto}* y veo pocas unidades. ¿Aún tienen?`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`);
         }
 
@@ -259,5 +269,4 @@
         loadData();
     </script>
 </body>
-
 </html>
